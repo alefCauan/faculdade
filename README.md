@@ -1,3 +1,3 @@
 # FACULDADE
 ***
- repositorio dedicado aos trabalhos e aulas relacionados a faculdade de SI
+ repositorio dedicado aos trabalhos e aulas relacionados ao curso de SI
