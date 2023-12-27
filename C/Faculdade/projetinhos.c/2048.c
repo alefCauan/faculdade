@@ -93,16 +93,20 @@ void WASD(int **Jogo, int direção)
     do
     {
         ações = 0;
-        for(int i = LinI; i != LinF; i += IIn){
+        for(int i = LinI; i != LinF; i += IIn)
+        {
             for(int j = ColI ; j != ColF; j += InCol)
             {
 
-                if(Jogo[i][j] != 0){
-                    if(Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == Jogo[i][j]){
+                if(Jogo[i][j] != 0)
+                {
+                    if(Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == Jogo[i][j])
+                    {
                         Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] += Jogo[i][j];
                         Jogo[i][j] = 0; ações++;
                     }
-                    else if(Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == 0){
+                    else if(Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == 0)
+                    {
                         Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] += Jogo[i][j];
                         Jogo[i][j] = 0; ações++;
                     }
