@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 
+typedef struct {
+    int Cima, Baixo, Direita, Esquerda;
+} Direção;
+
+typedef struct {
+    int LinI, LinF, IIn, ColI, ColF, InCol;
+} LinhasColunas;
+
 void linha(){
     printf("-------------------\n");
 }
@@ -24,19 +32,19 @@ int VerPontuação(int *pontuação){
 
     if(*pontuação > 20 && *pontuação < 70)
     {
-        pegar = rand() % 2;
+        pegar = rand() % 3;
 
         if(pegar == 1)
             pont = 4;
     }
     else if(*pontuação > 70)
     {
-        pegar = rand() % 3;
+        pegar = rand() % 7;
 
-        if(pegar == 1)
+        if(pegar == 1 || pegar == 2)
             pont = 4;
 
-        else if(pegar == 2)
+        else if(pegar == 3)
             pont = 8;
     }
 
@@ -63,58 +71,62 @@ void Gerador(int **jogo, int *pontuação)
     
 }
 
-void Trocar(int *C, int *B, int *D, int *E, int direção) {
-    (direção == 1) ? (*C = 1) : (direção == 2) ? (*E = 1) : (direção == 3) ? (*B = 1) : (*D = 1);
+void Trocar(Direção *dir, int direção) 
+{
+    dir->Cima = dir->Baixo = dir->Direita = dir->Esquerda = 0;
+
+    switch (direção) 
+    {
+        case 1: dir->Cima = 1; break;
+        case 2: dir->Esquerda = 1; break;
+        case 3: dir->Baixo = 1; break;
+        case 4: dir->Direita = 1; break;
+    }
 }
 
-void LinColInc(int *LinI, int *LinF, int *IIn, int *ColI, int *ColF, int *InCol, int direção){
-    if(direção == 1)
-        (*LinI = 3), (*LinF = 0), (*IIn = -1), (*ColI = 0), (*ColF = 4), (*InCol = 1);
+void LinColInc(LinhasColunas *LinCol, int direção) 
+{
+    LinCol->LinI = LinCol->LinF = LinCol->IIn = LinCol->ColI = LinCol->ColF = LinCol->InCol = 0;
 
-    else if(direção == 2)
-        (*LinI = 0), (*LinF = 4), (*IIn = 1), (*ColI = 4), (*ColF = 0), (*InCol = -1);  
-
-    else if(direção == 3)
-        (*LinI = 0), (*LinF = 3), (*IIn = 1), (*ColI = 0), (*ColF = 4), (*InCol = 1);
-
-    else if(direção == 4)
-        (*LinI = 0), (*LinF = 4), (*IIn = 1), (*ColI = 0), (*ColF = 3), (*InCol = 1);
+    switch (direção) 
+    {
+        case 1: LinCol->LinI = 3; LinCol->IIn = -1; LinCol->ColF = 4; LinCol->InCol = 1; break;
+        case 2: LinCol->LinF = 4; LinCol->IIn = 1; LinCol->ColI = 4; LinCol->InCol = -1; break;
+        case 3: LinCol->LinF = 3; LinCol->IIn = 1; LinCol->ColF = 4; LinCol->InCol = 1; break;
+        case 4: LinCol->LinF = 4; LinCol->IIn = 1; LinCol->ColF = 3; LinCol->InCol = 1; break;
+    }
 }
 
 void WASD(int **Jogo, int direção)
 {
-    int Cima = 0, Baixo = 0, Direita = 0, Esquerda = 0;
+    Direção direc = {0, 0, 0, 0};
+    LinhasColunas LinCol;
 
-    int LinI, LinF, IIn, ColI, ColF, InCol, ações = 0;
+    Trocar(&direc, direção);
+    LinColInc(&LinCol, direção);
 
-    Trocar(&Cima, &Baixo, &Direita, &Esquerda, direção);
-    
-    LinColInc(&LinI, &LinF, &IIn, &ColI, &ColF, &InCol, direção);
+    int ações = 0;
 
-    int i = LinI;
+    do {
+        ações = 0;
 
-   while(1)
-   {
-       ações = 0;
+        for (int i = LinCol.LinI; i != LinCol.LinF; i += LinCol.IIn) 
+        {
+            for (int j = LinCol.ColI; j != LinCol.ColF; j += LinCol.InCol) 
+            {
+                if (Jogo[i][j] == 0) continue;
 
-       if(i == LinF && ações < 1) break;
-
-       if(i == LinF) i = LinI;
-
-       for(int j = ColI ; j != ColF; j += InCol)
-       {
-           if(Jogo[i][j] != 0 && Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == 0 || Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == Jogo[i][j])
-           {
-               Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] += Jogo[i][j];
-               Jogo[i][j] = 0; ações++;
-           }
-       }
-
-       (i != LinF) ? (i += IIn) : (i = i);
-       
-       // Adicionar condição de parada
-       if(i == LinF && ações == 0) break;
-   }
+                else if (Jogo[i][j] != 0 && Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] == Jogo[i][j]) {
+                    Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] += Jogo[i][j];
+                    Jogo[i][j] = 0; ações++;
+                }
+                else if (Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] == 0) {
+                    Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] += Jogo[i][j];
+                    Jogo[i][j] = 0; ações++;
+                }
+            }
+        }
+    } while (ações >= 1);
 }
    
 

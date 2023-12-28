@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 void linha(){
     printf("-------------------\n");
 }
@@ -97,19 +98,10 @@ void WASD(int **Jogo, int direção)
         {
             for(int j = ColI ; j != ColF; j += InCol)
             {
-
-                if(Jogo[i][j] != 0)
+                if(Jogo[i][j] != 0 && (Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == Jogo[i][j] || Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == 0))
                 {
-                    if(Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == Jogo[i][j])
-                    {
-                        Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] += Jogo[i][j];
-                        Jogo[i][j] = 0; ações++;
-                    }
-                    else if(Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] == 0)
-                    {
-                        Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] += Jogo[i][j];
-                        Jogo[i][j] = 0; ações++;
-                    }
+                    Jogo[(i - Cima) + Baixo][(j - Esquerda) + Direita] += Jogo[i][j];
+                    Jogo[i][j] = 0; ações++;
                 }
             }
         }
