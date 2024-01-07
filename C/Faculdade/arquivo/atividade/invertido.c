@@ -34,13 +34,13 @@ void inverter_texto(char *palavra){
 
 }
 
-void abrir(char *nome){
-
+void abrir(char *nome)
+{
     FILE *arq = fopen(nome, "w+");
 
-    if(arq == NULL){
+    if(arq == NULL)
         printf("ERRO ao abrir arquivo!\n");
-    }
+    
 
     fclose(arq);
 }

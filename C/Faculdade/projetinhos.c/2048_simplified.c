@@ -99,15 +99,16 @@ void LinColInc(LinhasColunas *LinCol, int direção)
 
 void WASD(int **Jogo, int direção)
 {
-    Direção direc = {0, 0, 0, 0};
+    Direção Dir = {0, 0, 0, 0};
     LinhasColunas LinCol;
 
-    Trocar(&direc, direção);
+    Trocar(&Dir, direção);
     LinColInc(&LinCol, direção);
 
     int ações = 0;
 
-    do {
+    do 
+    {
         ações = 0;
 
         for (int i = LinCol.LinI; i != LinCol.LinF; i += LinCol.IIn) 
@@ -116,17 +117,18 @@ void WASD(int **Jogo, int direção)
             {
                 if (Jogo[i][j] == 0) continue;
 
-                else if (Jogo[i][j] != 0 && Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] == Jogo[i][j]) {
-                    Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] += Jogo[i][j];
+                else if (Jogo[i - Dir.Cima + Dir.Baixo][j - Dir.Esquerda + Dir.Direita] == Jogo[i][j]) {
+                    Jogo[i - Dir.Cima + Dir.Baixo][j - Dir.Esquerda + Dir.Direita] += Jogo[i][j];
                     Jogo[i][j] = 0; ações++;
                 }
-                else if (Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] == 0) {
-                    Jogo[i - direc.Cima + direc.Baixo][j - direc.Esquerda + direc.Direita] += Jogo[i][j];
+                else if (Jogo[i - Dir.Cima + Dir.Baixo][j - Dir.Esquerda + Dir.Direita] == 0) {
+                    Jogo[i - Dir.Cima + Dir.Baixo][j - Dir.Esquerda + Dir.Direita] += Jogo[i][j];
                     Jogo[i][j] = 0; ações++;
                 }
             }
         }
-    } while (ações >= 1);
+    } 
+    while (ações >= 1);
 }
    
 

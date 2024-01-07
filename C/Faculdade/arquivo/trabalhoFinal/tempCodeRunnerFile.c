@@ -1,0 +1,1 @@
+ch = fgetc(Stock)

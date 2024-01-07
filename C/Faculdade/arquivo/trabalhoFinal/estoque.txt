@@ -1,0 +1,5 @@
+banana 2.30 20
+tiramisu 47.30 10
+cuzcuz 6.40 20
+arroz 40.00 24
+garrafas 3.50 12
