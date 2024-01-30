@@ -328,11 +328,11 @@ void Consultar_Quarto(int modo)
 
     FILE *Consulta_Alojamento = fopen("Quartos.txt", "r");
 
+
     if(Consulta_Alojamento == NULL)
     {
         printf("Não há quartos para consultar\n");
-        fclose(Consulta_Alojamento);
-        return;
+        exit(EXIT_FAILURE);
     }
 
     switch(modo)
@@ -429,7 +429,7 @@ void Editar_Reserva(int num)
 
     if(!Editar_Alojamento)
     {
-        printf("\nERRO ao abrir o arquivo!\n");
+        printf("\nNão há quartos para editar!\n");
         exit(EXIT_FAILURE);
     }
     else if(!Editar_Alojamento_Temp)
@@ -469,7 +469,7 @@ void Editar_Quarto()
 
     if(Editar_Alojamento == NULL)
     {
-        printf("\nERRO ao abrir o arquivo!\n");
+        printf("\nNão há como editar arquivo!\n");
         exit(EXIT_FAILURE);
     }
     else if(Editar_Alojamento_Temp == NULL)
@@ -577,7 +577,7 @@ void Excluir_Quarto()
 
     if(Excluir_Alojamento == NULL)
     {
-        printf("\nERRO ao abrir o arquivo!\n");
+        printf("\nNão há como excluir quarto!\n");
         exit(EXIT_FAILURE);
     }
     else if(Excluir_Alojamento_Temp == NULL)
@@ -870,8 +870,8 @@ void Consultar_Cliente()
 
     if(Consultar_Hospede == NULL)
     {
-        printf("Não há clientes para consultar\n");
-        return;
+        printf("\nNão há clientes para consultar\n");
+        exit(EXIT_FAILURE);
     }
 
     do{
@@ -1016,7 +1016,7 @@ void Editar_Cliente()
 
     if(Editar_Hospede == NULL)
     {
-        printf("\nERRO ao abrir arquivo!\n");
+        printf("\nNão há como editar hospede!\n");
         exit(EXIT_FAILURE);
     }
     else if(Editar_Temp == NULL)
@@ -1497,7 +1497,7 @@ void Excluir_Cliente()
 
     if(Excluir_Fluxo == NULL)
     {
-        printf("\nERRO ao abrir arquivo!\n");
+        printf("\nNão há como excluir cliente!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -1753,7 +1753,7 @@ void Consultar_Reserva()
 
     if(Fluxo_Consultar == NULL)
     {
-        printf("\nERRO ao abrir arquivo!\n");
+        printf("\nNão há como consultar reserva!\n");
         exit(EXIT_FAILURE);
     }
 
